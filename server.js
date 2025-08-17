@@ -4,7 +4,7 @@ const cors = require("cors");
 const mysql = require("mysql2");
 const path = require("path");
 require('dotenv').config();
-const app = express();  // eta bad e localhost e sundor vabe run hoi --------------------<
+const app = express();
 
 // ✅ Static files (frontend)
 app.use(express.static(path.join(__dirname, "public")));
