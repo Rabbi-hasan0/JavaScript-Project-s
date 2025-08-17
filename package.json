@@ -1,20 +1,29 @@
 {
-  "name": "note-apps",
+  "name": "javascript-project-s",
   "version": "1.0.0",
+  "description": "",
   "main": "server.js",
-  "type": "commonjs",
-  "note": "Test note",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "engines": {
-    "node": "18.x"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rabbi-hasan0/JavaScript-Project-s.git"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Rabbi-hasan0/JavaScript-Project-s/issues"
+  },
+  "homepage": "https://github.com/Rabbi-hasan0/JavaScript-Project-s#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "mysql2": "^3.14.3",
-    "dotenv": "^16.1.4"
+    "mysql2": "^3.14.3"
   }
   
 }
