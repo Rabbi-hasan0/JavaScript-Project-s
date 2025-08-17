@@ -9,30 +9,70 @@
 
 
         <script>
-            const BASE_URL = window.location.hostname === "localhost"
+            // ✅ BASE_URL চেক (localhost ও 127.0.0.1 উভয় handle করা)
+            const BASE_URL = ["localhost", "127.0.0.1"].includes(window.location.hostname)
                 ? "http://localhost:3000"
                 : "https://notebook-app.up.railway.app";
 
+            // ✅ Add a new note
             async function addNote() {
-                const note = document.getElementById("note").value;
-                const res = await fetch(`${BASE_URL}/notes`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ note })
-                });
-                const data = await res.json();
-                loadNotes();
+                const noteInput = document.getElementById("note");
+                const note = noteInput.value.trim();
+
+                if (!note) {
+                    return alert("Note cannot be empty!");
+                }
+
+                try {
+                    const res = await fetch(`${BASE_URL}/notes`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ note })
+                    });
+
+                    const data = await res.json();
+
+                    if (!res.ok) {
+                        return alert("Failed to add note: " + (data.error || "Unknown error"));
+                    }
+
+                    // Clear input after successful add
+                    noteInput.value = "";
+                    loadNotes();
+
+                } catch (err) {
+                    console.error("❌ Error adding note:", err);
+                    alert("Server error. Check console for details.");
+                }
             }
 
+            // ✅ Load all notes
             async function loadNotes() {
-                const res = await fetch(`${BASE_URL}/notes`);
-                const notes = await res.json();
-                document.getElementById("notesList").innerHTML =
-                notes.map(n => `<li>${n.note}</li>`).join("");
+                try {
+                    const res = await fetch(`${BASE_URL}/notes`);
+                    const notes = await res.json();
+
+                    if (!Array.isArray(notes)) {
+                        return alert("Failed to load notes from server.");
+                    }
+
+                    const notesList = document.getElementById("notesList");
+                    if (notes.length === 0) {
+                        notesList.innerHTML = "<li>No notes yet!</li>";
+                    } else {
+                        notesList.innerHTML = notes.map(n => `<li>${n.note}</li>`).join("");
+                    }
+
+                } catch (err) {
+                    console.error("❌ Error loading notes:", err);
+                    alert("Server error while loading notes. Check console.");
+                }
             }
 
+            // ✅ Load notes on page load
             window.onload = loadNotes;
         </script>
+
 
     </head>
     <body class="h-screen bg-black px-16 py-8 font-poppins">
